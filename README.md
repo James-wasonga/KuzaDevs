@@ -4,6 +4,7 @@ KuzaDevs is a decentralized platform designed to unite developers, enabling them
 ---
 # Background
 Traditional platforms often fail to provide developers with a dedicated space for showcasing their work, connecting with peers, or securing resources for project execution. KuzaDevs fills this gap by creating an all-in-one decentralized platform tailored specifically for developers, leveraging blockchain technology for transparency, fairness, and trust. 
+
 --- 
 # Problem
 Developers face numerous challenges on traditional platforms: 
