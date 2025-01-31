@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useStateContext } from '../context';
 import { CustomButton } from './';
-import { logo, menu, search, thirdweb } from '../assets';
+import { kuzadevs, logo, menu, search, thirdweb } from '../assets';
 import { navlinks } from '../constants';
 
 const Navbar = () => {
@@ -14,6 +14,10 @@ const Navbar = () => {
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
+          <h1 className="font-epilogue font-bold sm:text-[36px] text-[25px] leading-[38px] flex-shrink-0 mr-16 mt-2">
+            <span className="text-yellow-500">Kuza</span>
+            <span className="text-blue-500">Devs</span>
+          </h1> 
       <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]">
         <input type="text" placeholder="Search for campaigns" className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none" />
         
@@ -35,7 +39,7 @@ const Navbar = () => {
 
         <Link to="/profile">
           <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
-            <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain" />
+            <img src={kuzadevs} alt="user" className="w-[90%] h-[100%] object-contain" />
           </div>
         </Link>
       </div>
