@@ -12,12 +12,7 @@ import menu from './menu.svg';
 import money from './money.svg';
 import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
-import starkraise from './starkraise.png';
-import stark from './stark.png';
-import twitter from './twitter.svg';
-import beststark from './beststark.png';
-import crowd from './crowd.png';
-
+import kuzadevs from './kuzadevs.png';
 
 export {
   tagType,
@@ -34,9 +29,5 @@ export {
   money,
   loader,
   thirdweb,
-  starkraise,
-  stark,
-  twitter,
-  beststark,
-  crowd,
+  kuzadevs,
 };

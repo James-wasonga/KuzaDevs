@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useAsyncError, useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
 
 import { useStateContext } from '../context';
 import { money } from '../assets';
 import { CustomButton, FormField, Loader } from '../components';
 import { checkIfImage } from '../utils';
+import {uploadToIPFS} from '../Infura';
+
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { createCampaign } = useStateContext();
+  const { createCampaign, contract } = useStateContext();
+  const [ uploadedFile, setUploadedFile] = useState(null);
   const [form, setForm] = useState({
     name: '',
     title: '',
@@ -22,6 +25,31 @@ const CreateCampaign = () => {
 
   const handleFormFieldChange = (fieldName, e) => {
     setForm({ ...form, [fieldName]: e.target.value })
+  }
+
+  const makeInteraction = (e) => {
+    e.preventDefault();
+    const {name, title, description,target, deadline, image} = form;
+    const dateToTimestamp = dateString => new Date(dateString).getTime();
+    const timestamp = dateToTimestamp(deadline);
+    console.log(timestamp)
+    const myCall = contract.populate('createCampaign', ["1", title, description,target, timestamp, o,uploadedFile, "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"])
+    setIsLoading(true)
+    contract['createCampaign'](myCall.calldata).then((res) => {
+      console.info("Successful Response:", res)
+    }).catch((err) => {
+      console.error ("Error:", err)
+    }).finnally(() => {
+      setIsLoading(false)
+    })
+  }
+
+  const handleFileChange = async (e) => {
+    var file = e.target.files[0];
+    const response = await uploadToIPFS(file);
+    console.log(response);
+    setUploadedFile(response)
+
   }
 
   const handleSubmit = async (e) => {
@@ -101,11 +129,13 @@ const CreateCampaign = () => {
             inputType="url"
             value={form.image}
             handleChange={(e) => handleFormFieldChange('image', e)}
+            // handleChange={handleFileChange}
           />
 
           <div className="flex justify-center items-center mt-[40px]">
             <CustomButton 
               btnType="submit"
+              // handleClick={makeInteraction}
               title="Submit new campaign"
               styles="bg-[#1dc071]"
             />
