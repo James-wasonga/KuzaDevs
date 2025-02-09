@@ -33,7 +33,7 @@ const CreateCampaign = () => {
     const dateToTimestamp = dateString => new Date(dateString).getTime();
     const timestamp = dateToTimestamp(deadline);
     console.log(timestamp)
-    const myCall = contract.populate('createCampaign', ["1", title, description,target, timestamp, o,uploadedFile, "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"])
+    const myCall = contract.populate('createCampaign', [ title, description,target, timestamp, o,uploadedFile])
     setIsLoading(true)
     contract['createCampaign'](myCall.calldata).then((res) => {
       console.info("Successful Response:", res)
@@ -126,16 +126,16 @@ const CreateCampaign = () => {
         <FormField 
             labelName="Campaign image *"
             placeholder="Place image URL of your campaign"
-            inputType="url"
+            inputType="file"
             value={form.image}
-            handleChange={(e) => handleFormFieldChange('image', e)}
-            // handleChange={handleFileChange}
+            // handleChange={(e) => handleFormFieldChange('image', e)}
+            handleChange={handleFileChange}
           />
 
           <div className="flex justify-center items-center mt-[40px]">
             <CustomButton 
-              btnType="submit"
-              // handleClick={makeInteraction}
+              // btnType="submit"
+              handleClick={makeInteraction}
               title="Submit new campaign"
               styles="bg-[#1dc071]"
             />
