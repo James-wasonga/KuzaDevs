@@ -27,23 +27,56 @@ const CreateCampaign = () => {
     setForm({ ...form, [fieldName]: e.target.value })
   }
 
-  const makeInteraction = (e) => {
-    e.preventDefault();
-    const {name, title, description,target, deadline, image} = form;
-    const dateToTimestamp = dateString => new Date(dateString).getTime();
-    const timestamp = dateToTimestamp(deadline);
-    console.log(timestamp)
-    const myCall = contract.populate('createCampaign', [ title, description,target, timestamp,0, uploadedFile])
-    setIsLoading(true)
-    contract['createCampaign'](myCall.calldata).then((res) => {
-      console.info("Successful Response:", res)
-    }).catch((err) => {
-      console.error ("Error:", err)
-    }).finnally(() => {
-      setIsLoading(false)
-    })
-  }
+  // const makeInteraction = (e) => {
+  //   e.preventDefault();
+  //   const {name, title, description,target, deadline, image} = form;
+  //   const dateToTimestamp = dateString => new Date(dateString).getTime();
+  //   const timestamp = dateToTimestamp(deadline);
+  //   console.log(timestamp)
+  //   const myCall = contract.populate('createCampaign', [ title, description,target, timestamp,0, uploadedFile])
+  //   setIsLoading(true)
+  //   contract['createCampaign'](myCall.calldata).then((res) => {
+  //     console.info("Successful Response:", res)
+  //   }).catch((err) => {
+  //     console.error ("Error:", err)
+  //   }).finnally(() => {
+  //     setIsLoading(false)
+  //   })
+  // }
 
+
+  const makeInteraction = async (e) => {
+    e.preventDefault();
+    const { title, description, target, deadline } = form;
+    const timestamp = new Date(deadline).getTime();
+  
+    setIsLoading(true);
+    try {
+      // Request accounts from the user's wallet (e.g., MetaMask)
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const owner = accounts[0];
+  
+      // Call createCampaign directly on the contract
+      const tx = await contract.createCampaign(
+        owner,
+        title,
+        description,
+        target,
+        timestamp,
+        uploadedFile // this should be a string (e.g., an IPFS URL)
+      );
+      console.info("Transaction submitted:", tx);
+      
+      // Wait for the transaction confirmation
+      await tx.wait();
+      console.info("Transaction confirmed:", tx);
+    } catch (err) {
+      console.error("Error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   const handleFileChange = async (e) => {
     var file = e.target.files[0];
     const response = await uploadToIPFS(file);
@@ -54,19 +87,24 @@ const CreateCampaign = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     checkIfImage(form.image, async (exists) => {
-      if(exists) {
-        setIsLoading(true)
-        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18)})
+      if (exists) {
+        setIsLoading(true);
+        // Use the createCampaign function from your context
+        await createCampaign({ 
+          ...form, 
+          target: ethers.utils.parseUnits(form.target, 18) 
+        });
         setIsLoading(false);
         navigate('/');
       } else {
-        alert('Provide valid image URL')
+        alert('Provide valid image URL');
         setForm({ ...form, image: '' });
       }
-    })
+    });
   }
+  
 
   return (
     <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
