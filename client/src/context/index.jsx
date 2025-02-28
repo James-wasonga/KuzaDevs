@@ -8,10 +8,8 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract('0xF187114620398a7B620f1Dec735D082467475fac');
-  const createCampaignMutation = useContractWrite(contract, 'createCampaign');
-  
-  console.log("createCampaignMutation:", createCampaignMutation);
-  
+  const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
+
   const address = useAddress();
   const connect = useMetamask();
 
