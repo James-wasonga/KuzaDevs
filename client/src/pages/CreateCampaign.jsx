@@ -7,13 +7,14 @@ import { money } from '../assets';
 import { CustomButton, FormField, Loader } from '../components';
 import { checkIfImage } from '../utils';
 import {uploadToIPFS} from '../Infura';
+import { createCampaign, contract } from '../utils/web3Utils';
+
 
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { createCampaign, contract } = useStateContext();
-  console.log(contract);
+  // const { createCampaign, contract } = useStateContext();
   const [ uploadedFile, setUploadedFile] = useState(null);
   const [form, setForm] = useState({
     name: '',
@@ -42,10 +43,10 @@ const CreateCampaign = () => {
     const {name, title, description,target, deadline, image} = form;
     const dateToTimestamp = dateString => new Date(dateString).getTime();
     const timestamp = dateToTimestamp(deadline);
-    console.log(timestamp)
-    console.log(contract)
+  
 
-    // console.log({name, title, description, target, deadline, image});
+    const tx = await createCampaign(title, description, target, timestamp, uploadedFile)
+    console.log(tx)
     // const myCall =  await contract.populate('createCampaign', ["0xab7E66b9c71Cfb1ceFde59e24bE6F839DBe49554", title, description,target, new Date(deadline).getTime(),0, uploadedFile])
     // setIsLoading(true)
     // contract['createCampaign'](myCall.calldata).then((res) => {
