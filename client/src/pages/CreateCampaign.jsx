@@ -47,15 +47,6 @@ const CreateCampaign = () => {
 
     const tx = await createCampaign(title, description, target, timestamp, uploadedFile)
     console.log(tx)
-    // const myCall =  await contract.populate('createCampaign', ["0xab7E66b9c71Cfb1ceFde59e24bE6F839DBe49554", title, description,target, new Date(deadline).getTime(),0, uploadedFile])
-    // setIsLoading(true)
-    // contract['createCampaign'](myCall.calldata).then((res) => {
-    //   console.info("Successful Response:", res)
-    // }).catch((err) => {
-    //   console.error ("Error:", err)
-    // }).finnally(() => {
-    //   setIsLoading(false)
-    // })
   }
 
   const handleFileChange = async (e) => {
