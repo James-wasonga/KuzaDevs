@@ -11,13 +11,11 @@
   "dependencies": {
     "@thirdweb-dev/react": "^3",
     "@thirdweb-dev/sdk": "^3",
-    "buffer": "^6.0.3",
     "ethers": "^5.7.2",
     "ipfs-http-client": "^60.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.4",
-    "web3": "^4.16.0"
+    "react-router-dom": "^6.4.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2",
